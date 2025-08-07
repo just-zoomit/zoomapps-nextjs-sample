@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Zoom Apps SDK Next.js sample app
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This repository contains a sample Zoom app built with Next.js using the Zoom Apps SDK.
+
+**Key features:**
+
+* **Next.js frontend**: A contextual UI that connects over WebSockets to stream real-time messaging service (RTMS) events into the browser.
+
+## Prerequisites
+
+* **Node.js ≥ 20.6.0** (for built-in `--env-file` support). If using an older version, install `dotenv`.
+* **pnpm** (for workspace management)
+* Zoom credentials (Client ID, Client Secret)
+* Supabase account
+
+## Set up the project
+
+1. **Clone the repository and install dependencies**:
+
+   ```bash
+   git clone https://github.com/zoom/zoomapps-nextjs-sample
+   cd zoomapps-nextjs-sample
+   npm install
+   ```
+
+## Run the app locally
+
+1. **Start both services from the root directory**:
+
+   ```bash
+   npm run dev
+   ```
+
+   * The frontend (Next.js) will be available at `http://localhost:3000`.
+
+## Start multiple ngrok endpoints
+
+To run multiple ngrok connections using a configuration file:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+ngrok start nextjs supabase
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Endpoint name | Public URL                 | Upstream port | Use case / purpose                                                                                 |
+| ------------- | -------------------------- | ------------- | -------------------------------------------------------------------------------------------------- |
+| `nextjs`      | `example.ngrok.io`         | 3000          | Serves the Next.js frontend (SSR/SSG pages, React components, dashboard UI, authentication flows). |
+| `supabase`    | `example-backend.ngrok.io` | 54321         | Runs the Supabase backend (Postgres database, GoTrue auth, storage, and edge functions).           |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Start Supabase locally
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Navigate to the frontend project directory. Each local Supabase project is scoped to its directory. Then run:
 
-## Learn More
+   ```bash
+   supabase start
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+   This starts the Supabase stack for the current project.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   * Studio will be available at: `http://localhost:54323`
+   * The running project will reflect the configuration in `config.toml` for that directory.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Verify the containers are running**:
 
-## Deploy on Vercel
+   After starting Supabase, you should see output similar to:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   Started supabase local development setup.
+   Studio URL: http://localhost:54323
+   API URL: http://localhost:54321
+   Check that the containers are running:
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   Confirm by checking:
+
+   ```bash
+   docker ps
+   ```
+
+   You should see containers such as `supabase-studio`, `supabase-auth`, and `supabase-db`.
+
+## Additional resources
+
+* [App manifest](./AppManifest.md)
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/zoom/rtms-nextjs/tree/main?tab=License-1-ov-file) file for details.
+
