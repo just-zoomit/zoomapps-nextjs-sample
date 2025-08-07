@@ -6,7 +6,7 @@ This repository contains a sample Zoom app built with Next.js using the Zoom App
 
 **Key features:**
 
-* **Next.js frontend**: A contextual UI that connects over WebSockets to stream real-time messaging service (RTMS) events into the browser.
+* **Next.js frontend**: A boilerplate web application for buiding Zoom apps.  
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@ This repository contains a sample Zoom app built with Next.js using the Zoom App
 1. **Clone the repository and install dependencies**:
 
    ```bash
-   git clone https://github.com/zoom/zoomapps-nextjs-sample
+   git clone https://github.com/just-zoomit/zoomapps-nextjs-sample.git
    cd zoomapps-nextjs-sample
    npm install
    ```
@@ -42,6 +42,11 @@ To run multiple ngrok connections using a configuration file:
 ```bash
 ngrok start nextjs supabase
 ```
+
+You should the tunnel traffic: 
+
+![HTTPS tunnel](assets/ngrok-https-tunnel.png)
+
 
 | Endpoint name | Public URL                 | Upstream port | Use case / purpose                                                                                 |
 | ------------- | -------------------------- | ------------- | -------------------------------------------------------------------------------------------------- |
@@ -80,6 +85,8 @@ ngrok start nextjs supabase
 
    You should see containers such as `supabase-studio`, `supabase-auth`, and `supabase-db`.
 
+
+  
 ## Additional resources
 
 * [App manifest](./AppManifest.md)
