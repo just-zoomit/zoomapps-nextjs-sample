@@ -82,7 +82,7 @@ You can use the following example ngrok [configuration file](https://gist.github
    ```
 
    You should see containers such as `supabase-studio`, `supabase-auth`, and `supabase-db`.
-   
+
 # Start developing
 
 ## Set up the project
@@ -108,5 +108,5 @@ You can use the following example ngrok [configuration file](https://gist.github
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/zoom/rtms-nextjs/tree/main?tab=License-1-ov-file) file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/just-zoomit/zoomapps-nextjs-sample/tree/main?tab=License-1-ov-file) file for details.
 
