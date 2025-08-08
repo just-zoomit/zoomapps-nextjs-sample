@@ -41,7 +41,7 @@ This repository contains a sample Zoom app built with Next.js using the Zoom App
 
 ## Start multiple ngrok endpoints
 
-To run multiple ngrok connections using a configuration file:
+To run multiple ngrok connections using a configuration file, run:
 
 ```bash
 ngrok start nextjs supabase
@@ -51,6 +51,7 @@ You should the tunnel traffic:
 
 ![HTTPS tunnel](assets/ngrok-https-tunnel.png)
 
+You can use the following example ngrok [configuration file](https://gist.github.com/just-zoomit/d07f988c54d89f71fcc6b2643aa1223c) as a reference:
 
 | Endpoint name | Public URL                 | Upstream port | Use case / purpose                                                                                 |
 | ------------- | -------------------------- | ------------- | -------------------------------------------------------------------------------------------------- |
