@@ -27,26 +27,11 @@ Use the following App manifest JSON object to configure the app:
 
 * [App manifest](./AppManifest.md)
 
-## Set up the project
+## Setup .env files
+Please see the .env.local.example file in the repository.
 
-1. **Clone the repository and install dependencies**:
-
-   ```bash
-   git clone https://github.com/just-zoomit/zoomapps-nextjs-sample.git
-   cd zoomapps-nextjs-sample
-   npm install
-   ```
-
-## Run the app locally
-
-1. **Start both services from the root directory**:
-
-   ```bash
-   npm run dev
-   ```
-
-   * The frontend (Next.js) will be available at `http://localhost:3000`.
-
+* Create a .env.local file by copying the example and filling in the values
+  * If you are in development, use the Client ID and Client secret under Development
 ## Start multiple ngrok endpoints
 
 To run multiple ngrok connections using a configuration file, run:
@@ -65,7 +50,6 @@ You can use the following example ngrok [configuration file](https://gist.github
 | ------------- | -------------------------- | ------------- | -------------------------------------------------------------------------------------------------- |
 | `nextjs`      | `example.ngrok.io`         | 3000          | Serves the Next.js frontend (SSR/SSG pages, React components, dashboard UI, authentication flows). |
 | `supabase`    | `example-backend.ngrok.io` | 54321         | Runs the Supabase backend (Postgres database, GoTrue auth, storage, and edge functions).           |
-
 
 ## Start Supabase locally
 
@@ -98,9 +82,30 @@ You can use the following example ngrok [configuration file](https://gist.github
    ```
 
    You should see containers such as `supabase-studio`, `supabase-auth`, and `supabase-db`.
+   
+# Start developing
+
+## Set up the project
+
+1. **Clone the repository and install dependencies**:
+
+   ```bash
+   git clone https://github.com/just-zoomit/zoomapps-nextjs-sample.git
+   cd zoomapps-nextjs-sample
+   npm install
+   ```
+
+## Run the app locally
+
+1. **Start both services from the root directory**:
+
+   ```bash
+   npm run dev
+   ```
+
+   * The frontend (Next.js) will be available at `http://localhost:3000`.
 
 
-  
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/zoom/rtms-nextjs/tree/main?tab=License-1-ov-file) file for details.
