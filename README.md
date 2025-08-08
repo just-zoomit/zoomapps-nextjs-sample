@@ -19,6 +19,8 @@ This repository contains a sample Zoom app built with Next.js using the Zoom App
 * ShadCN
 * Tailwind CSS
 
+# Setup developement envirnoment 
+
 ## Create Zoom Marketplace app 
 
 The Zoom Marketplace build flow for a Zoom App is available [here](https://marketplace.zoom.us/develop/create). You will need a developer account with Zoom Apps enabled.
