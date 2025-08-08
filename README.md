@@ -103,9 +103,11 @@ You can use the following example ngrok [configuration file](https://gist.github
    npm run dev
    ```
 
-   * The frontend (Next.js) will be available at `http://localhost:3000`.
+   * The frontend (Next.js) will be available at `http://localhost:3000` and at ngrok url endpoint.
 
-
+## Additional Resources
+* [Getting started with Zoom Apps SDK codelab](https://just-zoomit.github.io/get-started-with-zoomapps-sdk/#0)
+  
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/just-zoomit/zoomapps-nextjs-sample/tree/main?tab=License-1-ov-file) file for details.
