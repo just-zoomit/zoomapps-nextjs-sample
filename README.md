@@ -9,11 +9,15 @@ This repository contains a sample Zoom app built with Next.js using the Zoom App
 * **Next.js frontend**: A boilerplate web application for buiding Zoom apps.  
 
 ## Prerequisites
-
-* **Node.js ≥ 20.6.0** (for built-in `--env-file` support). If using an older version, install `dotenv`.
-* **pnpm** (for workspace management)
+* Node
 * Zoom credentials (Client ID, Client Secret)
 * Supabase account
+
+## Tech Stack
+* Next.js
+* Supabase
+* ShadCN
+* Tailwind CSS
 
 ## Set up the project
 

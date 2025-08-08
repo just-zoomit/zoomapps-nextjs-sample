@@ -1,25 +1,25 @@
+## Zoom App Manifest configuration
+
+Replace any placeholder URL such as https://example.ngrok.io with your actual ngrok-generated URL.
+
 ```
 {
     "manifest": {
         "display_information": {
-            "display_name": "Zoom App Next.js Sample App"
+            "display_name": "Zoom Apps Next.js Sample App"
         },
         "oauth_information": {
             "usage": "USER_OPERATION",
-            "development_redirect_uri": "https://donte.ngrok.io/auth/callback",
+            "development_redirect_uri": "https://example.ngrok.io/auth/callback",
             "production_redirect_uri": "",
             "oauth_allow_list": [
-                "https://donte.ngrok.io/auth/callback",
-                "https://oauth.pstmn.io/v1/callback"
+                "https://example-backend.ngrok.io/auth/v1/callback",
+                "https://oauth.pstmn.io/v1/callback",
+                "https://example.ngrok.io/auth/callback"
             ],
             "strict_mode": false,
             "subdomain_strict_mode": false,
             "scopes": [
-                
-                {
-                    "scope": "zoomapp:inmeeting",
-                    "optional": false
-                },
                 {
                     "scope": "marketplace:read:app",
                     "optional": false
@@ -27,14 +27,23 @@
                 {
                     "scope": "user:read:user",
                     "optional": false
+                },
+                {
+                    "scope": "zoomapp:inmeeting",
+                    "optional": false
+                },
+                {
+                    "scope": "imchat:userapp",
+                    "optional": false
                 }
             ]
         },
         "features": {
             "products": [
+                "ZOOM_CHAT",
                 "ZOOM_MEETING"
             ],
-            "development_home_uri": "https://donte.ngrok.io",
+            "development_home_uri": "https://example.ngrok.io",
             "production_home_uri": "",
             "domain_allow_list": [
                 {
@@ -95,14 +104,41 @@
                 }
             },
             "team_chat_subscription": {
-                "enable": false,
+                "enable": true,
                 "enable_support_channel": false,
-                "shortcuts": []
+                "slash_command": {
+                    "command": "hello_world",
+                    "command_hints": [],
+                    "enable_add_to_channel": false,
+                    "development_message_url": "https://example.ngrok.io/api/zoom/webhooks/chatbot",
+                    "production_message_url": "",
+                    "sender_type": "zoom",
+                    "welcome_msg": {
+                        "title": "",
+                        "body": ""
+                    },
+                    "trust_domain_list": []
+                },
+                "shortcuts": [
+                    {
+                        "shortcut_id": "UOsdVfdsQleTRNFm54QXqw",
+                        "action_label": "Open App",
+                        "action_id": "app_opened",
+                        "action_types": [
+                            "MESSAGE_ACTION",
+                            "COMPOSE_BOX"
+                        ],
+                        "action_usage": "DIALOG",
+                        "dialog_config": {
+                            "title": "create_message",
+                            "size": "M"
+                        }
+                    }
+                ]
             },
             "event_subscription": {
-                "enable": true,
-                "events": [                   
-                ]
+                "enable": false,
+                "events": []
             }
         }
     }
