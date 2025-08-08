@@ -19,6 +19,14 @@ This repository contains a sample Zoom app built with Next.js using the Zoom App
 * ShadCN
 * Tailwind CSS
 
+## Create Zoom Marketplace app 
+
+The Zoom Marketplace build flow for a Zoom App is available [here](https://marketplace.zoom.us/develop/create). You will need a developer account with Zoom Apps enabled.
+
+Use the following App manifest JSON object to configure the app:
+
+* [App manifest](./AppManifest.md)
+
 ## Set up the project
 
 1. **Clone the repository and install dependencies**:
@@ -58,6 +66,7 @@ You can use the following example ngrok [configuration file](https://gist.github
 | `nextjs`      | `example.ngrok.io`         | 3000          | Serves the Next.js frontend (SSR/SSG pages, React components, dashboard UI, authentication flows). |
 | `supabase`    | `example-backend.ngrok.io` | 54321         | Runs the Supabase backend (Postgres database, GoTrue auth, storage, and edge functions).           |
 
+
 ## Start Supabase locally
 
 1. Navigate to the frontend project directory. Each local Supabase project is scoped to its directory. Then run:
@@ -92,10 +101,6 @@ You can use the following example ngrok [configuration file](https://gist.github
 
 
   
-## Additional resources
-
-* [App manifest](./AppManifest.md)
-
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/zoom/rtms-nextjs/tree/main?tab=License-1-ov-file) file for details.
