@@ -121,7 +121,7 @@ Replace any placeholder URL such as https://example.ngrok.io with your actual ng
                 },
                 "shortcuts": [
                     {
-                        "shortcut_id": "UOsdVfdsQleTRNFm54QXqw",
+                        "shortcut_id": "",
                         "action_label": "Open App",
                         "action_id": "app_opened",
                         "action_types": [
