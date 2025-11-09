@@ -1,17 +1,16 @@
-// app/zoomapp/zcx/page.tsx
 'use client';
 import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
-import {getSupabaseUser } from "@/app/lib/token-store";
+import { getSupabaseUser } from "@/app/lib/token-store";
 
 
 import zoomSdk from "@zoom/appssdk";
 import { createClient } from "@/utils/supabase/client";
 
-import {signInWithZoomApp } from "@/app/actions";
- 
+import { signInWithZoomApp } from "@/app/actions";
+
 export default function ZoomAppPage() {
 
   console.log("__________________________ Zoom App Home Page _______________________", "\n");
@@ -23,14 +22,14 @@ export default function ZoomAppPage() {
 
   const state = searchParams?.get("state");
 
-   if (!state) {
-  console.log(" ⚠️ No state parameter found in the URL.");
+  if (!state) {
+    console.log(" ⚠️ No state parameter found in the URL.");
   }
 
   // Reference for the onAuthorized listener
-  const onAuthorizedRef = useRef<(event: any) => void>(() => {});
+  const onAuthorizedRef = useRef<(event: any) => void>(() => { });
 
- // Zoom SDK configuration
+  // Zoom SDK configuration
   const initializeZoomSDK = async () => {
     try {
       await zoomSdk.config({
@@ -51,7 +50,7 @@ export default function ZoomAppPage() {
     }
   };
 
-    // One-time effect: initialize SDK and wire up listener
+  // One-time effect: initialize SDK and wire up listener
   useEffect(() => {
     // define handler
     const handler = (event: any) => {
@@ -81,7 +80,7 @@ export default function ZoomAppPage() {
   }, [state]);
 
 
-    // Shared hydration logic
+  // Shared hydration logic
   const handleSupabaseSession = async (cacheState: string) => {
     try {
       const tokenData = await getSupabaseUser(cacheState);
@@ -148,11 +147,11 @@ export default function ZoomAppPage() {
 
 
   return (
-    <> 
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Zoom App Home Page</h1>
-    </div>
-    <p>You are on this route: {location}</p>
+    <>
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Zoom App Home Page</h1>
+      </div>
+      <p>You are on this route: {location}</p>
       <div className="flex flex-col gap-3 mt-4">
         <Button onClick={authorizeViaZoomClient} disabled={!isConfigured || authStatus === "loading"}>
           {authStatus === "loading" ? "Authorizing..." : "Authorize with Zoom In-Client Flow"}
@@ -167,7 +166,7 @@ export default function ZoomAppPage() {
       {authStatus === "success" && <p>✅ Redirecting...</p>}
       {authStatus === "error" && <p className="text-red-600">❌ Login failed. Please try again.</p>}
 
-</>
+    </>
 
   );
 }

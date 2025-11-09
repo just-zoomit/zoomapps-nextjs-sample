@@ -22,13 +22,13 @@ export async function GET(request: NextRequest) {
 
   logRequest(request.url, zoomHeader, searchParams);
   const parsedAction = handleZoomContext(zoomHeader);
-  const { uid ,state, act } = parsedAction;
+  const { uid, state, act } = parsedAction;
 
   console.log(
     "\n",
     `Used for looking up Team Chat modal token using secondary Redis key (userId: ${uid}, state: ${state}) from Zoom context headers.\n`
   );
-  
+
   // Only write to Redis if *both* uid and state are present
   if (uid && state) {
     try {
@@ -58,7 +58,7 @@ function logRequest(url: string, header: string | null, params: URLSearchParams)
   for (const [key, value] of Array.from(params.entries())) {
     console.log(`• ${key}: ${value}`);
   }
-  console.log("\n","🚨 Note the Action Parameter will include the State param and deeplink Action!", '\n');
+  console.log("\n", "🚨 Note the Action Parameter will include the State param and deeplink Action!", '\n');
   console.log("🔑 Zoom Header:", header, "\n");
 }
 
@@ -80,7 +80,7 @@ async function handleActParam(
   state: string | undefined
 ): Promise<Response | null> {
   if (act?.verified === "getToken") {
-    console.log("\n","⭐️ User-defined Deeplink Action:", act.verified, );
+    console.log("\n", "⭐️ User-defined Deeplink Action:", act.verified,);
     console.log(" 🧠 LEARN MORE: https://developers.zoom.us/docs/api/marketplace/#tag/apps/POST/zoomapp/deeplink", "\n");
 
 
@@ -130,13 +130,13 @@ function handleZoomContext(header: string | null): {
 
     // Act is optional — deep linking or context-based actions
     let act: any = undefined;
-    let state: any  = undefined;
+    let state: any = undefined;
     if (context.act) {
       try {
         act = JSON.parse(context.act);
         console.log("🎬 Parsed Zoom Action Context:", act);
 
-        state = act.state 
+        state = act.state
         if (act.state) {
           console.log("☄️  State from Action Context:", act.state);
         } else {
@@ -149,7 +149,7 @@ function handleZoomContext(header: string | null): {
       console.log(" ⚠️  No 'act' value in Zoom Context — likely a standard app open.");
     }
 
-    return {uid,act,state};
+    return { uid, act, state };
   } catch (error) {
     console.error("❌ Failed to process Zoom context:", error);
     return {};

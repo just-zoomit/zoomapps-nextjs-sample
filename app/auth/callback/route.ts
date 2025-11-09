@@ -15,12 +15,12 @@ export async function GET(request: Request) {
     const supabase = await createClient()
     const isLocalEnv = process.env.NODE_ENV === 'development'
     const forwardedHost = "https://" + request.headers.get('x-forwarded-host')
-    
+
     console.log("🔍 Extracted Auth Code:", code, '\n')
     console.log("🔗 Forward Host Path:", forwardedHost, '\n')
 
     const { error, data } = await supabase.auth.exchangeCodeForSession(code)
-   
+
     if (error) {
       console.error(error);
       return NextResponse.redirect(`${forwardedHost}/error`)
@@ -36,7 +36,7 @@ export async function GET(request: Request) {
       }
     })
 
-    console.log("Exchange Code For Session:", data.user.aud,'\n')
+    console.log("Exchange Code For Session:", data.user.aud, '\n')
 
     // When in a local dev environment we may be using Ngrok so we need to check the x-forwarded-host
     if (isLocalEnv) {

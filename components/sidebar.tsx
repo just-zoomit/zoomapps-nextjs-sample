@@ -1,17 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Home, Menu, Newspaper,ChartNoAxesCombined } from "lucide-react";
+import { Home, Menu, Newspaper, ChartNoAxesCombined, Send } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-import {createClient} from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/client";
 
 const navItems = [
   { href: "/home", label: "Home", icon: Home },
   { href: "/", label: "Report", icon: ChartNoAxesCombined },
-  { href: "/context", label: "App Context", icon: Newspaper }
-  
+  { href: "/context", label: "App Context", icon: Newspaper },
+  { href: "/zoomapp/zoom-card", label: "Message", icon: Send }
+
 ];
 
 export default function Sidebar() {
@@ -45,25 +46,25 @@ export default function Sidebar() {
 
   return (
     <div
-    className={cn(
-      "fixed inset-y-0 left-0 flex flex-col border-r border-muted bg-muted/40 transition-all duration-300",
+      className={cn(
+        "fixed inset-y-0 left-0 flex flex-col border-r border-muted bg-muted/40 transition-all duration-300",
 
-      // ALWAYS visible (remove your old `hidden sm:flex`)
-      // 1) hide on xs:
+        // ALWAYS visible (remove your old `hidden sm:flex`)
+        // 1) hide on xs:
         "hidden sm:flex",
 
-      // manual toggle: 4rem vs 10rem
-      collapsed ? "w-16" : "w-40",
+        // manual toggle: 4rem vs 10rem
+        collapsed ? "w-16" : "w-40",
 
-      // AUTOMATIC collapse at ≤ 320px panel width:
-      "max-[320px]:w-16",
+        // AUTOMATIC collapse at ≤ 320px panel width:
+        "max-[320px]:w-16",
 
-      // still allow manual expand on medium+ if you want
-      "md:" + (collapsed ? "w-16" : "w-40")
-    )}
-  >
+        // still allow manual expand on medium+ if you want
+        "md:" + (collapsed ? "w-16" : "w-40")
+      )}
+    >
       <div className="flex items-center justify-between p-4">
-      {!collapsed && <span className="max-[320px]:hidden font-bold text-lg">MyApp</span>}
+        {!collapsed && <span className="max-[320px]:hidden font-bold text-lg">MyApp</span>}
         <button onClick={() => setCollapsed(!collapsed)} className="text-muted-foreground">
           <Menu className="h-5 w-5" />
         </button>

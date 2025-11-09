@@ -12,7 +12,7 @@ const redis = new Redis({
  * @param {string} userId
  * @returns {Promise<string>} the latest OAuth state for the user
  */
-export async function getSupabaseUserbyId(userId:string) {
+export async function getSupabaseUserbyId(userId: string) {
   const key = `user:${userId}:latestState`;
   const raw = await redis.get(key);
   if (!raw) {
@@ -31,8 +31,8 @@ export interface SupabaseTokens {
 export async function getSupabaseUser(
   state: string
 ): Promise<SupabaseTokens> {
-  
-  console.log("STATE VALUE:",state)
+
+  console.log("STATE VALUE:", state)
   const key = `supabase:user:${state}`;
   const raw = await redis.get(key);
 

@@ -211,18 +211,18 @@ export async function getDeeplink(
 
   console.log("\n", "🔗 Requesting Zoom Deeplink with token:", token, "and action:", data.action);
 
-  if (!token ) {
+  if (!token) {
     console.warn("Missing token payload");
     return undefined;
   }
 
   try {
-    
+
     // Zoom injects the act field into the decrypted x-zoom-app-context when the Zoom App is opened via the deeplink.
-    const body = { action: data.action }; 
+    const body = { action: data.action };
 
     const response = await apiRequest("POST", "/zoomapp/deeplink", token, body);
-    
+
     console.log("\n", "✅ Zoom Deeplink API response:", response);
 
     return response.deeplink;

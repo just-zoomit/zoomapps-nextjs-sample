@@ -58,14 +58,14 @@ export default function ZoomLaunchRedirectHandler() {
       }
       setDeeplink(link);
 
-      
+
       if (hashParams && hashParams.toString().length > 0) {
         console.log("🔄 <----- Sent query params to Home URL:-----> 🔄 ");
 
         const supaHashParams = new URLSearchParams(window.location.hash);
 
         console.log("🔗 Supabase Hash Params to send to Home URL: 🔗", supaHashParams.toString(), "\n");
-        
+
         const res = await fetch(`/api/zoom/home?state=${state}&${supaHashParams}`, {
           method: "GET"
         });
