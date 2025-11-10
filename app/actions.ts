@@ -1,55 +1,51 @@
 "use server";
 
 import { encodedRedirect } from "@/utils/utils";
-import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import crypto from "crypto";
-
-
+import { authServerService } from "@/lib/services/auth-server.service";
+import { handleAsyncError, logError } from "@/lib/utils/error-handler";
 
 export const signInWithZoomApp = async () => {
-  const headerList = await headers();
-  const origin = headerList.get("origin");
+  return handleAsyncError(async () => {
+    const headerList = await headers();
+    const origin = headerList.get("origin");
 
-  // Generate state add to the URL
-  const state = crypto.randomBytes(12).toString("hex"); 
-  console.log("\n","Generated state for third-party Auth:", state, '\n');
-  const zoomAppRedirect = `${origin}/zoom/launch?state=${state}`;
-  const supabaseAuthUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/authorize?provider=zoom&redirect_to=${encodeURIComponent(zoomAppRedirect)}`;
-  
-  return { url: supabaseAuthUrl };
+    if (!origin) {
+      throw new Error("Origin header is required");
+    }
+
+    console.log("🚀 Initiating Zoom app authentication flow");
+    const result = await authServerService.initiateZoomAppAuth(origin);
+    console.log("✅ Generated OAuth URL with state parameter");
+    
+    return result;
+  }, "signInWithZoomApp");
 };
 
-export const signInWithZoom= async () => {
-  const supabase = await createClient();
-  const headerList = await headers();
-  const origin = headerList.get("origin");
- 
-  console.log("Origin:", origin, '\n');
+export const signInWithZoom = async () => {
+  return handleAsyncError(async () => {
+    const headerList = await headers();
+    const origin = headerList.get("origin");
 
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'zoom',
-    options: {
-      skipBrowserRedirect: true,
-      redirectTo: `${origin}/auth/callback`,
-    },
-  });
+    if (!origin) {
+      throw new Error("Origin header is required");
+    }
 
-  if (error)
-    return encodedRedirect("error", "/sign-in", error.message);
- 
-  console.log("Zoom URL:", data.url);
- 
-  return redirect(data.url);
-  
-}
+    console.log("🚀 Initiating standard Zoom OAuth flow for origin:", origin);
+    
+    const url = await authServerService.initiateZoomAuth(origin);
+    console.log("✅ Generated Zoom OAuth URL");
+    return redirect(url);
+  }, "signInWithZoom");
+};
 
 
 export async function signOutAction() {
-  const supabase = await createClient();
-  await supabase.auth.signOut();
-   
-  redirect("/");
-
+  return handleAsyncError(async () => {
+    console.log("🚪 Signing out user");
+    await authServerService.signOut();
+    console.log("✅ User signed out successfully");
+    redirect("/");
+  }, "signOutAction");
 };

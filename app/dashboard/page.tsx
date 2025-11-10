@@ -1,21 +1,22 @@
-import {createClient} from "@/utils/supabase/server";
-import {redirect} from "next/navigation";
+import { authServerService } from "@/lib/services/auth-server.service";
+import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
-    const supabase = await createClient();
+    try {
+        const user = await authServerService.getCurrentUser();
 
-    const {
-        data: {user},
-    } = await supabase.auth.getUser();
+        if (!user) {
+            return redirect("/");
+        }
 
-    if (!user) {
+        return (
+            <div className="flex flex-col w-full max-w-full">
+                <h1 className="text-2xl font-bold">Dashboard</h1>
+                <p className="mt-2 text-sm text-gray-600">Welcome, {user.email}!</p>
+            </div>
+        );
+    } catch (error) {
+        console.error("Dashboard error:", error);
         return redirect("/");
     }
-
-    return (
-        <div className="flex flex-row w-full max-w-full">
-            <h1 className="text-2xl font-bold">Dashboard</h1>
-           
-        </div>
-    );
 }

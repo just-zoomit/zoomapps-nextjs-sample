@@ -1,13 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { decryptZoomAppContext } from "@/app/lib/zoom-helper";
 import { updateSession } from "@/utils/supabase/middleware";
-import { getSupabaseUser } from "@/app/lib/token-store";
-
-import { Redis } from "@upstash/redis"
-const redis = new Redis({
-  url: process.env.NEXT_PUBLIC_UPSTASH_REDIS_REST_URL,
-  token: process.env.NEXT_PUBLIC_UPSTASH_REDIS_REST_TOKEN,
-});
+import { redisService } from "@/lib/services/redis.service";
+import { config } from "@/lib/config/environment";
+import { handleAsyncError, logError } from "@/lib/utils/error-handler";
 
 export async function GET(request: NextRequest) {
   console.log("__________________________Zoom Home Page Get Route________________________", "\n");
@@ -32,10 +28,10 @@ export async function GET(request: NextRequest) {
   // Only write to Redis if *both* uid and state are present
   if (uid && state) {
     try {
-      await redis.set(`user:${uid}:latestState`, state, { ex: 3600 });
+      await redisService.storeUserLatestState(uid, state);
       console.log("☑️  Saved latestState to Redis");
     } catch (e) {
-      console.error("❌ Upstash write failed:", e);
+      logError(e as Error, "Redis write failed", { uid, state });
       return NextResponse.json({ error: "Redis write failed" }, { status: 500 });
     }
   } else {
@@ -63,13 +59,12 @@ function logRequest(url: string, header: string | null, params: URLSearchParams)
 }
 
 function buildRedirectUrl(request: NextRequest, searchParams: URLSearchParams, origin: string) {
-  const isLocalEnv = process.env.NODE_ENV === "development";
   const next = searchParams.get("next") ?? "/";
 
   console.log("Next param:", next);
 
   const host = "https://" + request.headers.get("x-forwarded-host");
-  return isLocalEnv ? `${host}${next}` : `${origin}${next}`;
+  return config.app.isDevelopment ? `${host}${next}` : `${origin}${next}`;
 }
 
 /**
@@ -85,7 +80,7 @@ async function handleActParam(
 
 
     try {
-      const tokenData = await getSupabaseUser(state ?? "");
+      const tokenData = await redisService.getSupabaseTokens(state ?? "");
       console.log("🔐 Token retrieved from Redis:", tokenData, "\n");
 
       const redirectUrl = new URL("https://donte.ngrok.io");
@@ -116,7 +111,7 @@ function handleZoomContext(header: string | null): {
   }
 
   try {
-    const context = decryptZoomAppContext(header, process.env.ZOOM_CLIENT_SECRET!);
+    const context = decryptZoomAppContext(header, config.zoom.clientSecret);
     console.log("🔐 Decrypted Zoom Context:", context, '\n');
 
     // UID is already a plain string, do not parse

@@ -39,8 +39,8 @@ const nextConfig: NextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
               "style-src 'self' 'unsafe-inline'",
-              // allow Supabase + your WS origins
-              `connect-src 'self' ${upstashRestUrl} ${supabaseURL} ws://localhost:8081 wss://localhost:8081 ${siteURL.replace(/^https/, 'wss')}`,              "img-src 'self'",
+              // allow Supabase + your WS origins + Zoom API
+              `connect-src 'self' ${upstashRestUrl} ${supabaseURL} https://api.zoom.us ws://localhost:8081 wss://localhost:8081 ${siteURL.replace(/^https/, 'wss')}`,              "img-src 'self'",
               "font-src 'self'",
               "frame-src 'self'",
             ].join('; ')

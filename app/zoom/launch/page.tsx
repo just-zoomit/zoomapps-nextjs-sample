@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { getDeeplink } from "@/app/lib/zoom-api";
+import { redisService } from "@/lib/services/redis.service";
+import { handleAsyncError } from "@/lib/utils/error-handler";
 
 export default function ZoomLaunchRedirectHandler() {
   const [status, setStatus] = useState("🔄 Signing you in...");
@@ -34,6 +36,11 @@ export default function ZoomLaunchRedirectHandler() {
 
       if (!access_token || !refresh_token) {
         setStatus("❌ Missing access or refresh token");
+        return;
+      }
+
+      if (!provider_token) {
+        setStatus("❌ Missing provider token");
         return;
       }
 
