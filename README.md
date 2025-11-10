@@ -27,7 +27,7 @@ The Zoom Marketplace build flow for a Zoom App is available [here](https://marke
 
 Use the following App manifest JSON object to configure the app:
 
-* [App manifest](./AppManifest.md)
+* [App manifest](./0_zoom-app-quickstart-manifest/AppManifest.md)
 
 ## Setup .env files
 Please see the .env.local.example file in the repository.
