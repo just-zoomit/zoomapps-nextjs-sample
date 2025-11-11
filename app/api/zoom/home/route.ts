@@ -10,10 +10,6 @@ export async function GET(request: NextRequest) {
   const response = await updateSession(request);
   const { searchParams, origin } = new URL(request.url);
 
-  console.log("searchParams:", searchParams.toString(), "\n");
-  console.log("origin:", origin, "\n");
-
-
   const zoomHeader = request.headers.get("x-zoom-app-context");
 
   logRequest(request.url, zoomHeader, searchParams);
