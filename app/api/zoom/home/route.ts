@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { decryptZoomAppContext } from "@/app/lib/zoom-helper";
+import { decryptZoomAppContext } from "@/app/lib/zoom-helper.js";
 import { updateSession } from "@/utils/supabase/middleware";
 import { redisService } from "@/lib/services/redis.service";
 import { config } from "@/lib/config/environment";
