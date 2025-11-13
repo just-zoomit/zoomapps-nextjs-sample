@@ -16,7 +16,7 @@ export async function getSupabaseUserbyId(userId:string) {
   const key = `user:${userId}:latestState`;
   const raw = await redis.get(key);
   if (!raw) {
-    console.error("Supabase user token not found in Redis");
+    console.error("Zoom App (embedded client) - Third-party OAuth user token not found in Redis");
     throw new Error("User not found");
   }
   return raw;
@@ -32,12 +32,12 @@ export async function getSupabaseUser(
   state: string
 ): Promise<SupabaseTokens> {
   
-  console.log("STATE VALUE:",state)
+  console.log("Zoom App (embedded client) - Third-party OAuth state value:",state)
   const key = `supabase:user:${state}`;
   const raw = await redis.get(key);
 
   if (!raw) {
-    console.error("Supabase user token not found in Redis");
+    console.error("Zoom App (embedded client) - Third-party OAuth Supabase tokens not found in Redis");
     throw new Error("User not found");
   }
   // Parse the raw value and ensure it matches SupabaseTokens

@@ -11,10 +11,14 @@ export default function ZoomLaunchRedirectHandler() {
 
   useEffect(() => {
     const run = async () => {
-      console.log("__________________________ Zoom App External Page _______________________", "\n");
+      
+      console.log("__________________________ Zoom App (embedded client) - OAuth Launch Handler _______________________", "\n");
+      
 
       const hashParams = new URLSearchParams(window.location.hash.substring(1));
-      console.log("🔗 Supabase Hash Params:", hashParams.toString(), "\n");
+      
+      console.log("🔗 Zoom App (embedded client) - Third-party OAuth tokens received from Supabase:", hashParams.toString(), "\n");
+      
 
       const access_token = hashParams.get("access_token");
       const refresh_token = hashParams.get("refresh_token");
@@ -23,16 +27,21 @@ export default function ZoomLaunchRedirectHandler() {
 
       const queryParams = new URLSearchParams(window.location.search);
       const state = queryParams.get("state")
-      console.log(" 🪵  State from query params:", state, "\n");
+      
+      console.log(" 🪵  Zoom App (embedded client) - OAuth state parameter from URL:", state, "\n");
+      
 
-      console.log("_____________ Auth Handler Page: Third-party OAuth with Supabase ______________", "\n");
-      console.log("🧠 LEARN MORE: https://developers.zoom.us/docs/zoom-apps/authentication/#third-party-oauth-optional", "\n");
-      console.log("🔑 Extracted Supabase Provider Tokens from URL fragment:", {
+      console.log("_____________ Zoom App (embedded client) - Third-party OAuth Implementation with Supabase ______________", "\n");
+      
+      console.log("🧠 Zoom App (embedded client) - Third-party OAuth Documentation: https://developers.zoom.us/docs/zoom-apps/authentication/#third-party-oauth-optional", "\n");
+      
+      console.log("🔑 Zoom App (embedded client) - Third-party OAuth tokens extracted from Supabase callback:", {
         access_token,
         refresh_token,
         provider_token,
         provider_refresh_token,
       });
+      
 
       if (!access_token || !refresh_token) {
         setStatus("❌ Missing access or refresh token");
@@ -55,9 +64,13 @@ export default function ZoomLaunchRedirectHandler() {
         }),
       };
 
-      console.log('Redirecting to Zoom client via deeplink . . .', '\n')
+      
+      console.log('🔄 Zoom App (embedded client) - Generating deeplink to redirect back to Zoom client with OAuth tokens . . .', '\n')
+      
       const link = await getDeeplink(provider_token, data);
-      console.log("🔗 Zoom deeplink:", link, '\n');
+      
+      console.log("🔗 Zoom App (embedded client) - Third-party OAuth deeplink generated:", link, '\n');
+      
 
       if (!link) {
         setStatus("❌ Failed to retrieve Zoom deeplink");
@@ -67,18 +80,24 @@ export default function ZoomLaunchRedirectHandler() {
 
       
       if (hashParams && hashParams.toString().length > 0) {
-        console.log("🔄 <----- Sent query params to Home URL:-----> 🔄 ");
+        
+        console.log("🔄 <----- Zoom App (embedded client) - Sending third-party OAuth tokens to Home URL:-----> 🔄 ");
+        
 
         const supaHashParams = new URLSearchParams(window.location.hash);
 
-        console.log("🔗 Supabase Hash Params to send to Home URL: 🔗", supaHashParams.toString(), "\n");
+        
+        console.log("🔗 Zoom App (embedded client) - Third-party OAuth tokens being sent to Home URL: 🔗", supaHashParams.toString(), "\n");
+        
         
         const res = await fetch(`/api/zoom/home?state=${state}&${supaHashParams}`, {
           method: "GET"
         });
 
         if (!res.ok) {
-          console.error("❌ Error sending params to Home URL:", await res.text());
+          
+          console.error("❌ Zoom App (embedded client) - Error sending third-party OAuth tokens to Home URL:", await res.text());
+          
           setStatus("❌ Error during sign-in process");
           return;
         }
@@ -87,7 +106,9 @@ export default function ZoomLaunchRedirectHandler() {
         // ✅ Open in a new tab
         const newTab = window.open(link, "_blank");
         if (!newTab || newTab.closed || typeof newTab.closed === "undefined") {
-          console.warn("⚠️ Popup blocked. Showing button fallback.");
+          
+          console.warn("⚠️ Zoom App (embedded client) - Third-party OAuth deeplink popup blocked. Showing manual button fallback.");
+          
           setStatus("⚠️ Please click the button below to open the Zoom App.");
         } else {
           setStatus("✅ Zoom App opened in new tab.");

@@ -209,10 +209,10 @@ export async function getDeeplink(
   data: { action?: string } = {}
 ): Promise<string | undefined> {
 
-  console.log("\n", "🔗 Requesting Zoom Deeplink with token:", token, "and action:", data.action);
+  console.log("\n", "🔗 Zoom App (embedded client) - Requesting deeplink for third-party OAuth redirect with token:", token, "and action:", data.action);
 
   if (!token ) {
-    console.warn("Missing token payload");
+    console.warn("Zoom App (embedded client) - Missing third-party OAuth token payload for deeplink generation");
     return undefined;
   }
 
@@ -223,11 +223,11 @@ export async function getDeeplink(
 
     const response = await apiRequest("POST", "/zoomapp/deeplink", token, body);
     
-    console.log("\n", "✅ Zoom Deeplink API response:", response);
+    console.log("\n", "✅ Zoom App (embedded client) - Third-party OAuth deeplink API response:", response);
 
     return response.deeplink;
   } catch (e: any) {
-    console.error("❌ Zoom Deeplink API failed:", e?.response?.data || e.message);
+    console.error("❌ Zoom App (embedded client) - Third-party OAuth deeplink API failed:", e?.response?.data || e.message);
     return undefined;
   }
 }

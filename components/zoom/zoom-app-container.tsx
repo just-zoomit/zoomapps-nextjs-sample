@@ -33,7 +33,9 @@ export default function ZoomAppContainer() {
     openUrl,
   } = useZoomSDK({
     onAuthorized: (event) => {
-      console.log("🎯 Zoom authorization completed:", event);
+      
+      console.log("🎯 Zoom App (embedded client) - User authorization for third-party OAuth completed:", event);
+      
       handleSessionHydration(event.state);
     },
   });
@@ -42,7 +44,9 @@ export default function ZoomAppContainer() {
     try {
       await authorize(HARDCODED_CODE_CHALLENGE, HARDCODED_STATE);
     } catch (err) {
-      console.error("❌ Zoom client authorization failed:", err);
+      
+      console.error("❌ Zoom App (embedded client) - Third-party OAuth authorization failed:", err);
+      
     }
   };
 
@@ -50,16 +54,24 @@ export default function ZoomAppContainer() {
     try {
       const { url } = await signInWithZoomApp();
       await openUrl(url);
-      console.log("✅ Opened Supabase OAuth URL via Zoom SDK");
+      
+      console.log("✅ Zoom App (embedded client) - Third-party OAuth URL opened via Zoom SDK for Supabase authentication");
+      
     } catch (err) {
-      console.error("❌ Supabase auth via Zoom SDK failed:", err);
+      
+      console.error("❌ Zoom App (embedded client) - Third-party Supabase authentication via Zoom SDK failed:", err);
+      
     }
   };
 
-  console.log("🏠 Zoom App Container - Current route:", location);
   
+  console.log("🏠 Zoom App (embedded client) - Container loaded on route:", location);
+  
+
   if (state) {
-    console.log("🔑 State parameter detected:", state);
+    
+    console.log("🔑 Zoom App (embedded client) - OAuth state parameter detected for session restoration:", state);
+    
   }
 
   return (

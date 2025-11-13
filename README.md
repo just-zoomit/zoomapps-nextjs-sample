@@ -1,4 +1,4 @@
-# Zoom Apps SDK Next.js sample app
+# Zoom Apps SDK Next.js Third Party OAuth sample app
 
 ## Overview
 

@@ -17,7 +17,9 @@ export function useAuthFlow() {
   useEffect(() => {
     if (!state) return;
 
-    console.log("✅ State parameter found, initiating session hydration:", state);
+    
+    console.log("✅ Zoom App (embedded client) - Third-party OAuth state found, initiating session hydration:", state);
+    
     handleSessionHydration(state);
   }, [state]);
 
@@ -26,21 +28,27 @@ export function useAuthFlow() {
       setAuthStatus("loading");
       setError(null);
 
-      console.log("🔐 Retrieving tokens from Redis for state:", cacheState);
+      
+      console.log("🔐 Zoom App (embedded client) - Retrieving third-party OAuth tokens from Redis:", cacheState);
+      
       const tokenData = await redisService.getSupabaseTokens(cacheState);
 
       if (!tokenData.accessToken || !tokenData.refreshToken) {
         throw new Error("Incomplete token data received from cache");
       }
 
-      console.log("🔑 Setting Supabase session with cached tokens");
+      
+      console.log("🔑 Zoom App (embedded client) - Setting Supabase session with cached third-party OAuth tokens");
+      
       const session = await authService.setClientSession(
         tokenData.accessToken,
         tokenData.refreshToken
       );
 
       if (session) {
-        console.log("✅ Authentication successful, redirecting to dashboard");
+        
+        console.log("✅ Zoom App (embedded client) - Third-party OAuth authentication successful, redirecting to dashboard");
+        
         setAuthStatus("success");
         window.location.href = "/dashboard";
       } else {
@@ -48,7 +56,9 @@ export function useAuthFlow() {
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Authentication failed";
-      console.error("❌ Session hydration failed:", errorMessage);
+      
+      console.error("❌ Zoom App (embedded client) - Third-party OAuth session hydration failed:", errorMessage);
+      
       setError(errorMessage);
       setAuthStatus("error");
     }
@@ -61,12 +71,16 @@ export function useAuthFlow() {
 
       // This will be called from the component that uses this hook
       // The actual OAuth initiation should be done via server action
-      console.log("✅ Auth initiation requested");
+      
+      console.log("✅ Zoom App (embedded client) - Third-party OAuth authentication initiation requested");
+      
       setAuthStatus("success");
       return Promise.resolve({ url: "" }); // Return structure for compatibility
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Failed to initiate auth";
-      console.error("❌ Zoom app auth failed:", errorMessage);
+      
+      console.error("❌ Zoom App (embedded client) - Third-party OAuth authentication failed:", errorMessage);
+      
       setError(errorMessage);
       setAuthStatus("error");
       throw err;

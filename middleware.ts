@@ -7,8 +7,11 @@ export async function middleware(request: NextRequest) {
   const zoomHeader = request.headers.get("x-zoom-app-context");
 
   if (zoomHeader) {
-    console.log("__________________________Middleware Event________________________\n");
-    console.log("📬  Zoom x-zoom-app-context Header:\n", zoomHeader, "\n");
+    
+    console.log("__________________________Zoom App (embedded client) - Middleware Processing Third-party OAuth________________________\n");
+    
+    console.log("📬  Zoom App (embedded client) - Processing context header:\n", zoomHeader, "\n");
+    
   }
 
   // Extract query parameters
@@ -26,9 +29,13 @@ export async function middleware(request: NextRequest) {
   }
 
   if (access_token && refresh_token) {
-    console.log('\n', "🪪  MW - Access token:", access_token);
-    console.log("🔁  MW - Refresh token:", refresh_token);
-    console.log("🔑  MW - State:", state, "\n");
+    
+    console.log('\n', "🪪  Zoom App (embedded client) - MW Third-party OAuth access token:", access_token);
+    
+    console.log("🔁  Zoom App (embedded client) - MW Third-party OAuth refresh token:", refresh_token);
+    
+    console.log("🔑  Zoom App (embedded client) - MW Third-party OAuth state:", state, "\n");
+    
 
     try {
       // Store tokens in Redis with a TTL of 1 hour from now
@@ -36,9 +43,12 @@ export async function middleware(request: NextRequest) {
       await upsertSupabaseUser(state, access_token, refresh_token, expiresAt);
 
       
-      console.log("✅ Middleware: Tokens stored in Redis - state: ", state, "\n");
+      console.log("✅ Zoom App (embedded client) - MW Third-party OAuth tokens stored in Redis - state: ", state, "\n");
+      
     } catch (error) {
-      console.error("❌ Middleware: Failed to store tokens in Redis:", error);
+      
+      console.error("❌ Zoom App (embedded client) - MW Failed to store third-party OAuth tokens in Redis:", error);
+      
     }
     // Set tokens in Supabase session
     // Clean up tokens from URL and redirect
